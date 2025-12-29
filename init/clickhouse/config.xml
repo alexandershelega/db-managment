@@ -1,0 +1,24 @@
+<clickhouse>
+    <remote_servers>
+        <single_node_cluster>
+            <shard>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>127.0.0.1</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </single_node_cluster>
+    </remote_servers>
+    <zookeeper>
+        <node>
+            <host>zookeeper</host>
+            <port>2181</port>
+        </node>
+    </zookeeper>
+    <macros>
+        <shard>01</shard>
+        <replica>01</replica>
+        <cluster>single_node_cluster</cluster>
+    </macros>
+</clickhouse>

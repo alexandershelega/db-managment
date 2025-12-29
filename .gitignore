@@ -1,0 +1,22 @@
+# Database data directories
+data/
+data/mysql/
+data/postgres/
+data/mongo/
+data/clickhouse/
+
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS specific
+.DS_Store
+.vscode/
+.idea/

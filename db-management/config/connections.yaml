@@ -1,0 +1,24 @@
+mysql:
+  host: localhost
+  port: 3306
+  admin_username: root
+  admin_password: "mysql_root_password"
+  ssl: false
+postgresql:
+  host: localhost
+  port: 5432
+  admin_username: postgres
+  admin_password: "postgres_password"
+  sslmode: disable
+clickhouse:
+  host: localhost
+  port: 9000
+  admin_username: clickhouse_user
+  admin_password: "clickhouse_password"
+  cluster: "single_node_cluster"
+mongodb:
+  host: localhost
+  port: 27017
+  admin_username: mongo_admin
+  admin_password: "mongo_password"
+  auth_source: admin
