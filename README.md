@@ -78,7 +78,16 @@ If `users.txt` has `dev1` and `mysql_databases.txt` has `web`, the script will c
 
 ### 3. Connection Settings
 `db-management/config/connections.yaml` contains admin credentials. These match the `docker-compose.yaml` defaults.
-*Note: ClickHouse is configured as a single-node cluster named `single_node_cluster`.*
+*Note: ClickHouse is configured as a single-node cluster named `single_node_cluster`. Make sure the `cluster` key in `connections.yaml` matches this name.*
+
+```yaml
+clickhouse:
+  host: localhost
+  port: 9000
+  admin_username: clickhouse_user
+  admin_password: "clickhouse_password"
+  cluster: "single_node_cluster"  # Important for ON CLUSTER operations
+```
 
 ## Usage
 
