@@ -104,12 +104,14 @@ class PostgreSQLHandler:
                 # So this is sufficient.
         
         # Also revoke CREATE on public schema from PUBLIC to prevent users from creating tables in others' DBs
+        # AND explicitly grant it to the owner, because they might not own the public schema itself.
         try:
             with self._conn(db_name) as conn:
                 with conn.cursor() as cur:
                     cur.execute("REVOKE CREATE ON SCHEMA public FROM PUBLIC")
+                    cur.execute(f"GRANT ALL ON SCHEMA public TO {self._ident(username)}")
         except Exception as e:
-            print(f"Warning: Could not revoke CREATE on public schema for {db_name}: {e}")
+            print(f"Warning: Could not adjust public schema privileges for {db_name}: {e}")
 
     def drop_user(self, username: str):
         if self.dry:
