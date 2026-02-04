@@ -96,6 +96,7 @@ class PostgreSQLHandler:
         
         with self._conn() as conn:
             with conn.cursor() as cur:
+                cur.execute(f"REVOKE ALL PRIVILEGES ON DATABASE {self._ident(db_name)} FROM PUBLIC")
                 cur.execute(f"GRANT ALL PRIVILEGES ON DATABASE {self._ident(db_name)} TO {self._ident(username)}")
                 
                 # NOTE: In Postgres, just granting on DATABASE isn't enough for tables created by others.
