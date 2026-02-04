@@ -5,14 +5,14 @@ class PostgreSQLHandler:
         self.cfg = cfg
         self.dry = dry_run
 
-    def _conn(self):
+    def _conn(self, db_name="postgres"):
         psycopg2 = importlib.import_module("psycopg2")
         conn = psycopg2.connect(
             host=self.cfg.get("host", "localhost"),
             port=int(self.cfg.get("port", 5432)),
             user=self.cfg.get("admin_username", ""),
             password=self.cfg.get("admin_password", ""),
-            dbname="postgres",
+            dbname=db_name,
         )
         conn.autocommit = True
         return conn
@@ -102,6 +102,14 @@ class PostgreSQLHandler:
                 # NOTE: In Postgres, just granting on DATABASE isn't enough for tables created by others.
                 # But since we create the DB with this user as OWNER, they will have full rights by default.
                 # So this is sufficient.
+        
+        # Also revoke CREATE on public schema from PUBLIC to prevent users from creating tables in others' DBs
+        try:
+            with self._conn(db_name) as conn:
+                with conn.cursor() as cur:
+                    cur.execute("REVOKE CREATE ON SCHEMA public FROM PUBLIC")
+        except Exception as e:
+            print(f"Warning: Could not revoke CREATE on public schema for {db_name}: {e}")
 
     def drop_user(self, username: str):
         if self.dry:
